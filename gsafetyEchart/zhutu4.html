@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html {
+            background-color: #000000;
+        }
+    </style>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="second_page_box_line_years" style="width: 500px;height: 300px;"></div>
+<script>
+    var charts = echarts.init(document.getElementById('second_page_box_line_years'));
+    var xdata = ['西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区'];
+    var average = [183,178,190,170,183,178,190,170,183,178,190,170,183,178,190,170];
+    var people = [83,78,90,70,83,78,90,70,83,78,90,70,83,78,90,70];
+    var law = [8,8,9,7,8,8,9,7,8,8,9,7,8,8,9,7];
+    var handleIcon_path = "M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z";
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'
+            }
+        },
+        grid: {
+            top: 70,
+            left: '3%',
+            right: '3%',
+            bottom: 40,
+            containLabel: true
+        },
+
+        legend: {
+            data: ['岗位核定人员','执法人员数量', '执法检查量'],
+            textStyle: {
+                color: 'white',
+                fontSize: '16'
+            },
+            icon: 'roundRect',
+            x:"center",
+            top: 5
+        },
+        dataZoom: [{
+            show:(xdata.length > 6 ? true : false),
+            type: 'slider',
+            height:15,
+            start: 0,
+            end: 4 / xdata.length * 100,
+            bottom:15,
+            // left:1
+            fillerColor: 'rgba(255,255,255,0.2)',
+            borderColor: '#586e91',
+            handleIcon: handleIcon_path,
+            handleSize: '80%',
+            handleStyle: {
+                color: '#a7b7cc',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2,
+                opacity:0.5
+
+            },
+            textStyle:{
+                color:'transparent'
+            },
+        }],
+        xAxis: [{
+            type: 'category',
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#9cddf4'
+                },
+            },
+            axisTick: {
+                show: false,
+            },
+            axisLabel: {
+                color: 'white',
+                fontSize: 16,
+
+            },
+            data:xdata,
+        }],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人',
+                nameGap: 25,
+                nameTextStyle: {
+                    color: 'white',
+                    fontSize: 16,
+                },
+                axisLabel: {
+                    color: 'white',
+                    fontSize: 16,
+
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    show: false,
+
+                },
+                splitLine: {
+                    show: false,
+                    interval: 'auto',
+                    lineStyle: {
+                        color: '#224664'
+                    },
+                }
+            },
+            {
+                type: 'value',
+                name: '件',
+                nameGap: 25,
+                nameTextStyle: {
+                    color: 'white',
+                    fontSize: 16,
+                },
+                axisLabel: {
+                    color: 'white',
+                    fontSize: 16,
+
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    show: false,
+
+                },
+                splitLine: {
+                    show: true,
+                    interval: 'auto',
+                    lineStyle: {
+                        color: '#224664'
+                    },
+                }
+            },
+            {
+                type: 'value',
+                nameGap: 25,
+                nameTextStyle: {
+                    color: 'white',
+                    fontSize: 16,
+                },
+                axisLabel: {
+                    color: 'white',
+                    fontSize: 16,
+
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    show: false,
+
+                },
+                splitLine: {
+                    show: true,
+                    interval: 'auto',
+                    lineStyle: {
+                        color: '#224664'
+                    },
+                }
+            }
+        ],
+        series: [
+            {
+                name: '岗位核定人员',
+                type: 'bar',
+                barWidth: '20%',
+                yAxisIndex:0,
+                label: {
+                    show: true,
+                    position: "top",
+                    distance: 15,
+                    fontSize: 16,
+                    color: "#4cb5ab"
+                },
+                itemStyle: {
+                    // normal: {
+                    //     color: {
+                    //         x: 0,
+                    //         y: 0,
+                    //         x2: 0,
+                    //         y2: 1,
+                    //         type: "linear",
+                    //         global: false,
+                    //         colorStops: [{
+                    //             offset: 0,
+                    //             color: "#4cb5ab"
+                    //         }, {
+                    //             offset: 1,
+                    //             color: "#04435e"
+                    //         }]
+                    //     }
+                    // }
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: '#adbda1'
+                            },
+                            {
+                                offset: 1,
+                                color: '#1a4a8d'
+                            }
+                        ])
+                    }
+                },
+                data: average
+            },
+            {
+                name: '执法人员数量',
+                type: 'bar',
+                barWidth: '20%',
+                yAxisIndex:0,
+                label: {
+                    show: true,
+                    position: "top",
+                    distance: 15,
+                    fontSize: 16,
+                    color: "#4cb5ab"
+                },
+                itemStyle: {
+                    normal: {
+                        color: {
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            type: "linear",
+                            global: false,
+                            colorStops: [{
+                                offset: 0,
+                                color: "#4cb5ab"
+                            }, {
+                                offset: 1,
+                                color: "#04435e"
+                            }]
+                        }
+                    }
+                },
+                data: people
+            },
+            {
+                name: '执法检查量',
+                type: 'bar',
+                barWidth: '20%',
+                yAxisIndex:1,
+                label: {
+                    show: true,
+                    position: "top",
+                    fontSiz: 16,
+                    color: "#f1fc77"
+                },
+                itemStyle: {
+                    normal: {
+                        color: {
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            type: "linear",
+                            global: false,
+                            colorStops: [{
+                                offset: 0,
+                                color: "#f1fc77"
+                            }, {
+                                offset: 1,
+                                color: "#3c538a"
+                            }]
+                        }
+                    }
+                },
+                data: law
+            }
+        ]
+    };
+    charts.setOption(option);
+</script>
+</body>
+</html>

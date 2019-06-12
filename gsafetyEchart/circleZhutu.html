@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html {
+            background-color: #000000;
+        }
+    </style>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="populationOverViewLeftDownEcharts" style="width: 500px;height: 300px;"></div>
+<script>
+    var myEcharts = echarts.init(document.getElementById('populationOverViewLeftDownEcharts'));
+    var xdata = ['西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区'];
+    var ydata1 = [27,25,12,10,8,6,4,2];
+    var ydata2 = [27,25,12,10,8,6,4,2];
+    var colorTop = ['rgba(112,82,244,0.7)', 'rgba(224,239,123,0.7)', ];
+    var colorBottom = ['rgba(64,201,239,0.7)', 'rgba(69,227,207,0.7)', ];
+    var options = {
+
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'
+            },
+            formatter: function(param) {
+
+                var axisValue = '';
+                var seriesName = '';
+                param.map(function(item) {
+                    axisValue = item.axisValue;
+                    var value = item.value ? item.value + '万' : '--';
+                    seriesName += `${item.seriesName}：${value}<br>`;
+                });
+                return `${axisValue}<br>${seriesName}`
+
+
+                /*   return `${param[0].axisValue}<br>${param[0].seriesName}：${param[0].value?param[0].value:"--"}万<br>${param[1].seriesName}：${param[1].value?param[1].value:"--"}万`*/
+            }
+        },
+        grid: {
+            top: 30,
+            left: 110,
+            right: 80,
+            bottom: 10,
+            containLabel: false
+
+        },
+        legend: {
+            show: true,
+            data:['2018-10','2019-03'],
+            textStyle: {
+                color: 'white',
+                fontSize: '12'
+            },
+            icon: 'roundRect',
+            left: '4%',
+            top: "0%"
+
+        },
+        // dataZoom: [{
+        //height:80,
+        //     width: 100,
+        //     type: 'slider',
+        //     orient: 'vertical',
+        //     start: 0,
+        //     //zoomLock:true,
+        //     end: 20,
+        //     x: 10,
+        //     fillerColor: 'rgba(255,255,255,0.2)',
+        //     borderColor: '#586e91',
+        //     handleIcon: 'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z',
+        //     handleSize: '80%',
+        //     handleStyle: {
+        //         color: '#a7b7cc',
+        //         shadowBlur: 3,
+        //         shadowColor: 'rgba(0, 0, 0, 0.6)',
+        //         shadowOffsetX: 2,
+        //         shadowOffsetY: 2,
+        //         opacity: 0.5
+
+        //     },
+        //     textStyle: {
+        //         color: 'transparent'
+        //     },
+        //     bottom: 10,
+        //     top: 10
+        // }],
+        yAxis: [{
+            show: true,
+            //name:"万",
+            // nameLocation: "end",
+            nameTextStyle: {
+                color: "green",
+                fontSize: 20,
+                width: 550
+            },
+            type: 'category',
+            axisLine: {
+                show: false, //坐标y轴底线
+                lineStyle: {
+                    color: '#515c7a'
+                }
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                color: 'white',
+                fontSize: 20,
+                align: "right",
+                // width:900,
+                //distance:"-10",
+                // position: [27],
+                // backgroundColor: '#000',
+                //borderColor: '#777',
+                //borderWidth: 1,
+                //borderRadius: 4,
+                formatter: function(value) {
+                    if (value.length < 4) {
+                        value = value + " ";
+                    }
+                    return '{a|' + value + '}'
+                },
+                // margin: 8,
+                rich: {
+                    a: {
+                        // lineHeight: 100,
+                        fontSize: 20,
+                        //width:200,
+                        // height:900
+                    }
+                }
+
+            },
+            data: xdata
+        }],
+        xAxis: [{
+            show: true,
+            type: 'value',
+            // nameLocation: "end",
+            nameGap: 25,
+            nameTextStyle: {
+                color: 'white',
+                fontSize: 16
+            },
+            axisLabel: {
+                show: false,
+                color: 'white',
+                fontSize: 16
+
+            },
+            axisTick: {
+                show: false,
+            },
+            axisLine: {
+                show: false,
+                lineStyle: {
+                    color: '#515c7a'
+                }
+            },
+            splitLine: {
+                show: false,
+                // interval: 'auto',
+                lineStyle: {
+                    color: '#223058'
+                }
+            },
+            // inverse: true,
+        }],
+        series: [{
+            name: '2018-10',
+            type: 'bar',
+            barWidth: '20%',
+            barGap: '150%',
+            label: {
+                show: true,
+                position: 'right',
+                distance: 10,
+                fontSize: 16,
+                // color: '#a08f51',
+                color: 'rgba(112,82,244,1)'
+                //rotate:90
+
+
+            },
+            itemStyle: {
+                normal: {
+                    barBorderRadius: [3, 3, 3, 3],
+                    color: {
+                        type: 'linear',
+                        x: 0,
+                        y: 0,
+                        x2: 1,
+                        y2: 0,
+                        colorStops: [{
+                            offset: 0,
+                            //  color: 'rgba(214, 229, 115, 0.9)' // 0% 处的颜色
+                            color: colorTop[0]
+                        }, {
+                            offset: 1,
+                            // color: 'rgba(214, 229, 115, 0.6)' // 100% 处的颜色
+                            color: colorBottom[0]
+                        }],
+                        globalCoord: false // 缺省为 false
+                    }
+                },
+
+            },
+            data: ydata1
+        },
+            {
+                name:'2019-03',
+                type: 'bar',
+                barWidth: '20%',
+                barGap: '150%',
+                label: {
+                    show: true,
+                    position: 'right',
+                    distance: 10,
+                    fontSize: 16,
+                    // color: '#27b7bc',
+                    color: 'rgba(69,227,207,1)'
+                    //rotate:90
+
+
+                },
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: [3, 3, 3, 3],
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 1,
+                            y2: 0,
+                            colorStops: [{
+                                offset: 0,
+                                //   color: 'rgba(64, 201, 239, 0.9)' // 0% 处的颜色
+                                color: colorTop[1]
+                            }, {
+                                offset: 1,
+                                //  color: 'rgba(64, 201, 239, 0.6)' // 100% 处的颜色
+                                color: colorBottom[1]
+                            }],
+                            globalCoord: false // 缺省为 false
+                        }
+                    },
+
+                },
+                data:ydata2
+            }
+        ]
+    };
+    myEcharts.setOption(options);
+</script>
+</body>
+</html>

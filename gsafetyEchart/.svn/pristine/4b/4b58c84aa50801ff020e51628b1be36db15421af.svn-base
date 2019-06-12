@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/echarts.js"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: black;
+        }
+        
+        .ProblemAnalysisBar {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ProblemAnalysisBar" class="ProblemAnalysisBar"></div>
+</body>
+<script>
+    var province = {
+        /** 
+                idName   div id名
+                data    数据
+                clickCallBack  点击事件
+                MapparamDefaultTrue  手动设置那个面块 选中
+                ClickHighlight  暂定  点击那个 给那个 色块
+                WrittenWordsColor        是否要文字 和  数字
+                WrittenWordsColorTwo    是否显示数字 true为不显示
+                optionData     配置项
+                isShowBorder   true的时候显示边框和区域颜色
+                isSixareaJson 是否改用中心城区（城六区）JSON数据
+                currentHighLightName 传递选项name 可高亮
+                sixWithNum    城六区的小地图带数字
+         */
+        showProvince: function(obj) {
+
+            var idName = obj.idName || '',
+                data = obj.data || [],
+                clickCallBack = obj.clickCallBack || function() {},
+                MapparamDefaultTrue = obj.MapparamDefaultTrue || false,
+                ClickHighlight = obj.ClickHighlight || false,
+                WrittenWordsColor = obj.WrittenWordsColor || false,
+                optionData = obj.optionData || null,
+                WrittenWordsColorTwo = obj.WrittenWordsColorTwo || false,
+                isShowBorder = obj.isShowBorder || false,
+                isSixareaJson = obj.isSixareaJson || false,
+                currentHighLightName = obj.currentHighLightName || '',
+                sixWithNum = obj.sixWithNum || false,
+                WrittenWordsColorTwos = obj.WrittenWordsColorTwos || null,
+                FontColor = obj.FontColor || '#f0dd61',
+                sixWithNumColoe = obj.sixWithNumColoe || null;
+            if (!idName) {
+                console.log('idName不能为空')
+                return
+            }
+
+            var arr = [];
+            //原始淡蓝色系
+            /* var colorBorder = isShowBorder ?['rgba(124,243,250,1)']:['rgba(124,243,250,0)'];
+             var colorTop = isShowBorder ? ['rgba(124,243,250,0.3)']:['rgba(124,243,250,0)'];
+             var colorActive = ['rgba(124,243,250,0.5)'];
+             var colorBottom = ['rgba(124,243,250,0)'];*/
+
+            var colorBorder = isShowBorder ? ['rgba(161, 255, 163,1)'] : ['rgba(124,243,250,0)'];
+            var colorTop = isShowBorder ? ['rgba(161, 255, 163,0.3)'] : ['rgba(124,243,250,0)'];
+            var colorActive = ['rgba(161, 255, 163,0.5)'];
+            var colorBottom = ['rgba(161, 255, 163,0)'];
+            // var colorBorder = ['rgba(7,207,158,.5)'];  备份 绿色  色块 ui  绿色 背景
+            // var colorTop = ['rgba(7,207,158,.1)'];
+            // var colorActive = ['rgba(0,243,250,0.4)'];
+            // var colorBottom = ['rgba(7,207,158,.1)'];
+            if (data && data.length > 0) {
+                var data = data;
+            } else {
+                var data = [{
+                    name: '东城区',
+                    value: 0
+                }, {
+                    name: '西城区',
+                    value: 0
+                }, {
+                    name: '海淀区',
+                    value: 0
+                }, {
+                    name: '朝阳区',
+                    value: 0
+                }, {
+                    name: '石景山区',
+                    value: 0
+                }, {
+                    name: '大兴区',
+                    value: 0
+                }, {
+                    name: '门头沟区',
+                    value: 0
+                }, {
+                    name: '昌平区',
+                    value: 0
+                }, {
+                    name: '通州区',
+                    value: 0
+                }, {
+                    name: '房山区',
+                    value: 0
+                }, {
+                    name: '丰台区',
+                    value: 0
+                }, {
+                    name: '顺义区',
+                    value: 0
+                }, {
+                    name: '怀柔区',
+                    value: 0
+                }, {
+                    name: '密云区',
+                    value: 0
+
+                }, {
+                    name: '延庆区',
+                    value: 0
+                }, {
+                    name: '平谷区',
+                    value: 0
+                }];
+            }
+
+            if (WrittenWordsColor == true) {
+
+            } else if (WrittenWordsColorTwos == 'socialDialog_left') {
+
+                data.map(function(item, index) {
+                    arr.push(
+                        Object.assign({
+                            name: item.area,
+                            value: item.num
+                        }, {
+                            label: {
+                                show: true,
+                                formatter: function(d) {
+                                    if (d.name == '东城区' || d.name == '西城区' || d.name == '丰台区' || d.name == '石景山区' || d.name == '海淀区' || d.name == '朝阳区') {
+                                        return `{aa|${d.value}}\n{bb|${d.name}}`
+                                    } else {
+                                        return `{aa|${d.value}}\n{bb|${d.name}}`
+                                    }
+
+                                },
+                                rich: {
+                                    cc: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [6, 5],
+
+                                    },
+                                    aa: {
+                                        fontSize: 18,
+                                        color: FontColor,
+                                        align: 'center',
+                                        padding: [6, 10],
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        borderRadius: 10
+                                    },
+                                    bb: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [10, 5],
+
+                                    }
+                                },
+                                //  position: ['0%', '0%'],
+                                // distance: 0,
+                                rotate: 8,
+                                offset: [0, -21],
+                                color: '#fff',
+                                fontSize: 16,
+                                /* textBorderColor: '#173383',
+                                 textBorderWidth:2,*/
+                                textShadowColor: '#173383',
+                                textShadowBlur: 3,
+                            },
+                            //todo
+                            selected: (currentHighLightName == item.name) ? true : false,
+                            emphasis: {
+                                itemStyle: {
+                                    areaColor: colorActive[0]
+                                },
+                                label: {
+                                    color: colorBorder[0],
+
+                                }
+                            },
+                            itemStyle: {
+                                // areaColor: 'rgba(45,255,255,0.05)',
+                                areaColor: {
+                                    type: 'radial',
+                                    x: 0.5,
+                                    y: 0.5,
+                                    r: 1,
+                                    colorStops: [{
+                                            offset: 0,
+                                            color: colorBottom[0] // 0% 处的颜色
+                                        },
+
+                                        {
+                                            offset: 1,
+                                            color: colorTop[0] // 100% 处的颜色
+                                        }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                borderColor: colorBorder[0],
+                                borderWidth: 2,
+                                borderType: 'solid',
+                                shadowBlur: 10,
+                                shadowColor: colorBorder[0],
+                            },
+                        })
+                    )
+
+                });
+            } else if (WrittenWordsColorTwo == true) {
+
+                data.map(function(item, index) {
+                    arr.push(
+                        Object.assign({
+                            name: item.name
+                        }, {
+                            label: {
+                                show: true,
+                                formatter: function(d) {
+                                    if (d.name == '东城区' || d.name == '西城区' || d.name == '丰台区' || d.name == '石景山区' || d.name == '海淀区' || d.name == '朝阳区') {
+                                        return `{cc|${d.name}}`
+                                    } else {
+                                        return `{bb|${d.name}}`
+                                    }
+
+                                },
+                                rich: {
+                                    cc: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [6, 5],
+
+                                    },
+                                    aa: {
+                                        fontSize: 18,
+                                        color: FontColor,
+                                        align: 'center',
+                                        padding: [6, 10],
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        borderRadius: 10
+                                    },
+                                    bb: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [10, 5],
+
+                                    }
+                                },
+                                //  position: ['0%', '0%'],
+                                // distance: 0,
+                                rotate: 8,
+                                offset: [0, -21],
+                                color: '#fff',
+                                fontSize: 16,
+                                /* textBorderColor: '#173383',
+                                 textBorderWidth:2,*/
+                                textShadowColor: '#173383',
+                                textShadowBlur: 3,
+                            },
+                            //todo
+                            selected: (currentHighLightName == item.name) ? true : false,
+                            emphasis: {
+                                itemStyle: {
+                                    areaColor: colorActive[0]
+                                },
+                                label: {
+                                    color: colorBorder[0],
+
+                                }
+                            },
+                            itemStyle: {
+                                // areaColor: 'rgba(45,255,255,0.05)',
+                                areaColor: {
+                                    type: 'radial',
+                                    x: 0.5,
+                                    y: 0.5,
+                                    r: 1,
+                                    colorStops: [{
+                                            offset: 0,
+                                            color: colorBottom[0] // 0% 处的颜色
+                                        },
+
+                                        {
+                                            offset: 1,
+                                            color: colorTop[0] // 100% 处的颜色
+                                        }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                borderColor: colorBorder[0],
+                                borderWidth: 2,
+                                borderType: 'solid',
+                                shadowBlur: 10,
+                                shadowColor: colorBorder[0],
+                            },
+                        })
+                    )
+
+                });
+            } else {
+
+                data.map(function(item, index) {
+                    arr.push(
+                        Object.assign({
+                            name: item.name,
+                            value: item.value
+                        }, {
+                            label: {
+                                show: true,
+                                formatter: function(d) {
+                                    ``
+                                    if (!sixWithNum) {
+
+                                        if (d.name == '东城区' || d.name == '西城区' || d.name == '丰台区' || d.name == '石景山区' || d.name == '海淀区' || d.name == '朝阳区') {
+                                            return `{cc|${d.name}}`
+                                        } else {
+                                            return `{aa|${d.value}}\n{bb|${d.name}}`
+                                        }
+                                    } else if (sixWithNumColoe != null) {
+
+                                        if (d.name == '东城区' || d.name == '西城区' || d.name == '丰台区' || d.name == '石景山区' || d.name == '海淀区' || d.name == '朝阳区') {
+                                            return `{cc|${d.name}}`
+                                        } else {
+                                            return `{aa|${d.value}${sixWithNumColoe}}\n{bb|${d.name}}`
+                                        }
+                                    } else {
+                                        return `{aa|${d.value}}\n{bb|${d.name}}`
+                                    }
+
+
+
+                                },
+                                rich: {
+                                    cc: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [6, 5],
+
+                                    },
+                                    aa: {
+                                        fontSize: 18,
+                                        color: FontColor,
+                                        align: 'center',
+                                        padding: [6, 10],
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        borderRadius: 10
+                                    },
+                                    bb: {
+                                        fontSize: 16,
+                                        align: 'center',
+                                        color: '#fff',
+                                        padding: [10, 5],
+
+                                    }
+                                },
+                                //  position: ['0%', '0%'],
+                                // distance: 0,
+                                rotate: 0,
+                                offset: [0, -21],
+                                color: '#fff',
+                                fontSize: 16,
+                                /* textBorderColor: '#173383',
+                                 textBorderWidth:2,*/
+                                textShadowColor: '#173383',
+                                textShadowBlur: 3,
+                            },
+                            selected: (currentHighLightName == item.name) ? true : false,
+                            emphasis: {
+                                itemStyle: {
+                                    areaColor: colorActive[0]
+                                },
+                                label: {
+                                    color: colorBorder[0],
+
+                                }
+                            },
+                            itemStyle: {
+                                // areaColor: 'rgba(45,255,255,0.05)',
+                                areaColor: {
+                                    type: 'radial',
+                                    x: 0.5,
+                                    y: 0.5,
+                                    r: 1,
+                                    colorStops: [{
+                                            offset: 0,
+                                            color: colorBottom[0] // 0% 处的颜色
+                                        },
+
+                                        {
+                                            offset: 1,
+                                            color: colorTop[0] // 100% 处的颜色
+                                        }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                borderColor: colorBorder[0],
+                                borderWidth: 2,
+                                borderType: 'solid',
+                                shadowBlur: 10,
+                                shadowColor: colorBorder[0],
+                            },
+                        })
+                    )
+
+                });
+
+            }
+
+
+            var myecharts = echarts.init(document.getElementById(idName));
+            var options = {
+
+                series: [{
+                    name: '数量',
+                    type: 'map',
+                    mapType: isSixareaJson ? './lib/six.json' : './lib/110100.json',
+                    roam: false,
+                    zoom: 1.25,
+                    symbol: 'circle',
+                    selectedMode: 'single',
+                    itemStyle: {
+                        areaColor: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 1,
+                            colorStops: [{
+                                    offset: 0,
+                                    color: colorBottom[0] // 0% 处的颜色
+                                },
+
+                                {
+                                    offset: 1,
+                                    color: colorTop[0] // 100% 处的颜色
+                                }
+                            ],
+                            globalCoord: false // 缺省为 false
+                        },
+                        borderColor: colorBorder[0],
+                        borderWidth: 2,
+                        borderType: 'solid',
+                        shadowBlur: 10,
+                        shadowColor: colorBorder[0],
+
+                    },
+
+                    emphasis: {
+                        itemStyle: {
+                            areaColor: colorActive[0],
+                        },
+                        label: {
+                            color: 'transparent',
+                        }
+                    },
+                    data: arr
+
+                }]
+            };
+
+
+            if (optionData != null) {
+                option = $.extend(true, options, optionData);
+            }
+            $.get(isSixareaJson ? './lib/six.json' : './lib/110100.json', function(geoJson) {
+                echarts.registerMap(isSixareaJson ? './lib/six.json' : './lib/110100.json', geoJson);
+                myecharts.setOption(options);
+            });
+
+            myecharts.on('click', function(params) {
+                //  点击事件  
+                if (typeof clickCallBack === "function") {
+                    clickCallBack(params, myecharts, options);
+                    if (ClickHighlight == true) {
+                        myecharts.dispatchAction({
+                            type: 'downplay',
+                            seriesIndex: 0
+                        });
+                        myecharts.dispatchAction({
+                            type: 'highlight',
+                            seriesIndex: 0,
+                            dataIndex: params.dataIndex
+                        });
+                        myecharts.dispatchAction({
+                            type: 'showTip',
+                            seriesIndex: 0,
+                            dataIndex: params.dataIndex,
+                        });
+                    }
+                }
+            });
+            if (MapparamDefaultTrue == true) {
+                var paramsss = window.MapparamDefault;
+
+
+            }
+        }
+    };
+    province.showProvince({
+        idName: 'ProblemAnalysisBar',
+        isShowBorder: true
+
+    })
+</script>
+
+</html>

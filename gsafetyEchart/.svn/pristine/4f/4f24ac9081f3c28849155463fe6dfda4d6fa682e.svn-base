@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html {
+            background-color: #000;
+        }
+    </style>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="tra_1" style="width: 500px;height: 300px;">
+
+</div>
+<script>
+    //左一
+    var tra1 = echarts.init(document.getElementById('tra_1'));
+    var plane_1 = 'image://data:image/jpeg;base64,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';
+    var plane_2 = 'image://data:image/jpeg;base64,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';
+    var tra1option = {
+        "grid": {
+            "left": "75",
+            "top": "10%",
+            "bottom": 10
+        },
+        "xAxis": {
+            "max":50,
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "show": false
+            },
+            "axisLabel": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            }
+        },
+        "yAxis": [{
+            "type": "category",
+            "inverse": true,
+            "data": [
+                "到港航班",
+                "离港航班"
+            ],
+            "axisLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "margin": -4,
+                "textStyle": {
+                    "color": "#fff",
+                    "fontSize": 18
+                }
+            }
+        }, ],
+        "series": [{
+            "type": "pictorialBar",
+            "symbol": plane_1,
+            "symbolRepeat": "fixed",
+            "symbolMargin": "15%",
+            "symbolClip": true,
+            "symbolSize": 25,
+            "symbolPosition": "start",
+            "symbolOffset": [
+                20,
+                0
+            ],
+            // "symbolBoundingData": 300,
+            "data": [
+               21,
+                17
+            ],
+            "z": 10
+        },
+            {
+                "type": "pictorialBar",
+                "itemStyle": {
+                    "normal": {
+                        "opacity": 0.3
+                    }
+                },
+                "label": {
+                    "normal": {
+                        "show": false
+                    }
+                },
+                "animationDuration": 0,
+                "symbolRepeat": "fixed",
+                "symbolMargin": "15%",
+                "symbol": plane_2,
+                "symbolSize": 25,
+                // "symbolBoundingData": 300,
+                "symbolPosition": "start",
+                "symbolOffset": [
+                    20,
+                    0
+                ],
+                "data": [
+                   50,
+                    50
+                ],
+                "z": 5
+            }
+        ]
+    };
+    tra1.setOption(tra1option);
+</script>
+</body>
+</html>

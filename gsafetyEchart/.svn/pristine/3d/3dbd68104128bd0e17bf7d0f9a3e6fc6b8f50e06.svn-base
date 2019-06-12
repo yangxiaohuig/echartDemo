@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html {
+            background-color: #000000;
+        }
+    </style>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="getRenderHtmlLeftTopEcharts" style="height: 300px;width: 500px;"></div>
+<script>
+    var myChart_one = echarts.init(document.getElementById('getRenderHtmlLeftTopEcharts'));
+    var datax = [1,2,3,4,5,6,7,8,9,10,11,12];
+    var datay= [100.4,101.4,99.3,100.5,99.8,100.8,100.5,100.1,99.3,100.3,99.5];
+    var dataycount= [105.4,101.4,99.3,100.5,99.8,100.8,100.5,100.1,99.3,100.3,99.5];
+    option_one = {
+        //
+        grid: {
+            right: 10,
+            bottom: 30
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+
+        textStyle: {
+            color: '#fff'
+        },
+        title: {
+            // text: ' 北京市居民消费价格指数',
+            left: 'left',
+            textStyle: {
+                color: '#04b6de',
+                fontSize: 22,
+                fontFamily: "微软雅黑"
+            },
+            padding: [10, 0, 0, 30]
+        },
+        legend: {
+            data: ['本月环比（上月=100）', '本月同比（上年同月=100）'],
+            left: 'right',
+            textStyle: {
+                color: ['#4e66de', '#fafc72']
+            },
+            padding: [10, 50, 0, 0],
+            top: 10
+        },
+        xAxis: {
+            data: datax,
+            itemStyle: {
+                fontSize: '20',
+            },
+            axisLabel: {
+                color: '#fff',
+
+                fontSize: 17,
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#99A6BA'
+                }
+            },
+        },
+        yAxis: {
+
+            axisLine: {
+                lineStyle: {
+                    color: '#99A6BA'
+                }
+            },
+            axisLabel: {
+                formatter: '{value}%',
+                fontSize: 17
+            },
+            splitLine: {
+                show: false
+
+            }
+
+        },
+        series: [{
+            name: '本月环比（上月=100）',
+            type: 'bar',
+            barWidth: 18,
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    border: 'none',
+                    barBorderRadius: [9, 9, 0, 0],
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1, [{
+                            offset: 0.6,
+                            color: '#47a3ed'
+                        },
+                            {
+                                offset: 1,
+                                color: '#0d4199'
+                            }
+                        ]
+                    )
+                },
+                emphasis: {
+                    barBorderRadius: 13,
+                    shadowBlur: 18,
+                    shadowColor: 'rgba(218,170, 58, 0.7)'
+                }
+            },
+            data: datay
+        },
+            {
+
+                tooltip: {
+                    show: false
+                },
+                type: 'pictorialBar',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 1, 0, [{
+                                offset: 0,
+                                color: '#2bc6dd'
+                            },
+                                {
+                                    offset: 1,
+                                    color: '#18cde1'
+                                }
+                            ]
+                        ),
+                        borderWidth: 1,
+                        borderColor: '#18CEE2'
+                    }
+                },
+                symbol: 'circle',
+                symbolSize: ['17', '8'],
+                symbolPosition: 'end',
+                data: datay,
+                z: 3
+            },
+
+            {
+                name: '本月同比（上年同月=100）',
+                //                yAxisIndex: 1,
+                type: 'line',
+                showAllSymbol: true,
+                symbol: 'emptyCircle',
+                symbolSize: 14,
+                data: dataycount,
+                itemStyle: {
+                    normal: {
+                        color: '#fdb94e'
+                    },
+                },
+            }
+
+        ]
+    };
+    myChart_one.setOption(option_one);
+</script>
+</body>
+</html>

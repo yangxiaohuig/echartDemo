@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,
+        body,
+        #main {
+            width: 100%;
+            height: 90%;
+        }
+    </style>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/echarts.js"></script>
+</head>
+
+<body>
+    <button class="Allclick" data-html="base-line-chart">1.0彩色柱图base-line-chart</button>
+    <button class="Allclick" data-html="Map-chart">1.0 地图</button>
+    <button class="Allclick" data-html="ditu">1.0 地图划线</button>
+    <button class="Allclick" data-html="qianxi">1.0 全国迁徙图</button>
+    <button class="Allclick" data-html="qianxi2">1.0 北京迁徙图</button>
+    <button class="Allclick" data-html="row-zhutu-special">1.0 特殊横着的柱图</button>
+    <button class="Allclick" data-html="circleZhutu">1.0 圆边的柱图</button>
+    <button class="Allclick" data-html="circle-line">1.0 圆边的折线图</button>
+    <button class="Allclick" data-html="doubleZhuTu">1.0 双柱图</button>
+    <button class="Allclick" data-html="hangban">1.0 航班</button>
+    <button class="Allclick" data-html="personNum">1.0 航班人数</button>
+    <button class="Allclick" data-html="zhutu2">1.0 柱图2</button>
+    <button class="Allclick" data-html="zhutu3">1.0 柱图3</button>
+    <button class="Allclick" data-html="zhutu4">1.0 柱图4</button>
+    <div id="main">
+
+    </div>
+</body>
+<script>
+    $(document).on('click', '.Allclick', function(e) {
+        var url = $(this).attr('data-html');
+        $('#main').load(url + '.html');
+    })
+</script>
+
+</html>

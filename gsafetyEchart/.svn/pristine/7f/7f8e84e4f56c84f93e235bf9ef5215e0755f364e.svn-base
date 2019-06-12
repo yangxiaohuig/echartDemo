@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/echarts.js"></script>
+</head>
+<style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+    }
+    
+    .scalecontent-three-content {
+        height: 80%;
+        width: 100%;
+    }
+    
+    .scalecontent-three-yeareground {
+        height: 20%;
+        width: 100%;
+    }
+    
+    .wrap {
+        width: 80%;
+        height: 100%;
+        margin: 0 auto;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <div id="scalecontent-three-yeareground" class="scalecontent-three-yeareground"></div>
+        <div id="scalecontent-three-content" class="scalecontent-three-content"></div>
+    </div>
+
+
+</body>
+<script>
+    var module = {}
+        // 户籍数据  数组
+    var guishu = {
+        beijing: 24253550,
+        other: 5640479,
+        natives: [{
+            level: "天津",
+            value: 180456
+        }, {
+            level: "江苏省",
+            value: 147817
+        }, {
+            level: "江西省",
+            value: 51312
+        }, {
+            level: "广东省",
+            value: 147591
+        }, {
+            level: "贵州省",
+            value: 32159
+        }, {
+            level: "宁夏回族自治区",
+            value: 16885
+        }, {
+            level: "河北省",
+            value: 1463256
+        }, {
+            level: "辽宁省",
+            value: 275921
+        }, {
+            level: "浙江省",
+            value: 88104
+        }, {
+            level: "山东省",
+            value: 407097
+        }, {
+            level: "河南省",
+            value: 571674
+        }, {
+            level: "广西壮族自治区",
+            value: 38549
+        }, {
+            level: "云南省",
+            value: 34949
+        }, {
+            level: "陕西省",
+            value: 125405
+        }, {
+            level: "新疆维吾尔自治区",
+            value: 37297
+        }, {
+            level: "山西省",
+            value: 426811
+        }, {
+            level: "吉林省",
+            value: 160126
+        }, {
+            level: "安徽省",
+            value: 141221
+        }, {
+            level: "湖北省",
+            value: 127362
+        }, {
+            level: "海南省",
+            value: 13278
+        }, {
+            level: "重庆",
+            value: 59908
+        }, {
+            level: "西藏自治区",
+            value: 3709
+        }, {
+            level: "甘肃省",
+            value: 108668
+        }, {
+            level: "北京",
+            value: 24253550
+        }, {
+            level: "内蒙古自治区",
+            value: 182178
+        }, {
+            level: "黑龙江省",
+            value: 270972
+        }, {
+            level: "上海",
+            value: 230651
+        }, {
+            level: "福建省",
+            value: 50400
+        }, {
+            level: "湖南省",
+            value: 85076
+        }, {
+            level: "四川省",
+            value: 152065
+        }, {
+            level: "青海省",
+            value: 9582
+        }, ]
+    }
+
+    var data0 = guishu.beijing;
+    var data1 = guishu.other;
+    var datatop10 = guishu.natives
+    module.sexzhu = function(id, data1, data2) {
+        var num = Number(data1) + Number(data2);
+        var dataarr1 = (data1 / num).toFixed(2) * 100;
+        var dataarr2 = (data2 / num).toFixed(2) * 100;
+        echarts.init(document.getElementById(id)).clear()
+        var TemperatureEcharts = echarts.init(document.getElementById(id));
+        if (id == 'scalecontent-four-yeareground') {
+            option = {
+                grid: {
+                    top: '50%',
+                    left: '8%',
+                    right: '40%',
+                    bottom: '0%',
+                },
+                tooltip: {
+                    trigger: 'item',
+
+                },
+                xAxis: {
+                    type: 'value',
+                    show: false,
+
+                },
+                yAxis: {
+                    type: 'category',
+                    show: false,
+                    axisTick: {
+                        show: false
+                    }
+                },
+                series: [{
+                    type: 'bar',
+                    name: '北京',
+                    data: [dataarr1],
+                    stack: 'income',
+                    barWidth: 30,
+
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            color: '#73C2DB',
+
+                            //TODO 
+                            formatter: '{a}{c}%'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#1f66f8',
+                            barBorderRadius: [5, 0, 0, 5],
+
+                        }
+                    },
+                }, {
+                    type: 'bar',
+                    name: '外省',
+                    data: [dataarr2],
+                    stack: 'income',
+                    barWidth: 30,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            color: '#73C2DB',
+
+
+                            //TODO ,
+
+                            formatter: '{a}{c}%'
+                        }
+                    },
+
+                    itemStyle: {
+                        normal: {
+                            color: '#14f6cf',
+                            barBorderRadius: [0, 5, 5, 0],
+
+                        }
+
+                    }
+                }]
+            };
+
+        } else {
+            option = {
+                grid: {
+                    top: '50%',
+                    left: '8%',
+                    right: '8%',
+                    bottom: '0%',
+                },
+                tooltip: {
+                    trigger: 'item',
+
+                },
+                xAxis: {
+                    type: 'value',
+                    show: false,
+
+                },
+                yAxis: {
+                    type: 'category',
+                    show: false,
+                    axisTick: {
+                        show: false
+                    }
+                },
+                series: [{
+                    type: 'bar',
+                    name: '北京',
+                    data: [dataarr1],
+                    stack: 'income',
+                    barWidth: 30,
+
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            color: '#73C2DB',
+
+                            //TODO 
+                            formatter: '{a}{c}%'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#1f66f8',
+                            barBorderRadius: [5, 0, 0, 5],
+
+                        }
+                    },
+                }, {
+                    type: 'bar',
+                    name: '外省',
+                    data: [dataarr2],
+                    stack: 'income',
+                    barWidth: 30,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            color: '#73C2DB',
+
+
+                            //TODO ,
+
+                            formatter: '{a}{c}%'
+                        }
+                    },
+
+                    itemStyle: {
+                        normal: {
+                            color: '#14f6cf',
+                            barBorderRadius: [0, 5, 5, 0],
+
+                        }
+
+                    }
+                }]
+            };
+
+        }
+
+        TemperatureEcharts.setOption(option);
+        // echart图表自适应
+    }
+
+    module.yearsbintu = function(id, data) {
+        var num = 0;
+        var data0 = data.map(function(item, index) {
+            num += Number(item.value)
+        });
+        var arr = data.map(function(item, index) {
+            return {
+                name: item.level,
+                value: ((item.value / num) * 100).toFixed(2)
+            }
+        })
+        echarts.init(document.getElementById(id)).clear()
+        var TemperatureEcharts = echarts.init(document.getElementById(id));
+        var data = arr ? arr : [{
+            "level": "1",
+            "value": 10
+        }, {
+            "level": "2",
+            "value": 10
+        }, {
+            "level": "3",
+            "value": 10
+        }, {
+            "level": "4",
+            "value": 10
+        }, {
+            "level": "5",
+            "value": 10
+        }, {
+            "level": "6",
+            "value": 20
+        }, {
+            "level": "7",
+            "value": 30
+        }, ]
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    return params.name +
+                        ":" + params.value + '%';
+                }
+            },
+            color: ['#1565C0', '#448AFF', '#64B5F6', '#4DD0E1', '#00897B', '#4DB6AC',
+                '#9CCC65', "#6245AC", '#BA6FF3', '#DCAEFF', '#E8514E', '#E55E8C', '#FE6F42', '#FEAA3F', '#FFE345', '#D8FF94', '#9D9D9D'
+            ],
+            title: {
+                // text: '总数',
+                // subtext: 7789,
+                textStyle: {
+                    color: '#f2f2f2',
+                    fontSize: 18,
+                    align: 'center'
+                },
+                subtextStyle: {
+                    fontSize: 16,
+                    color: ['#ff9d19']
+                },
+                x: 'center',
+                y: 'center',
+            },
+            grid: {
+                left: 100,
+                right: '50%'
+            },
+            legend: {
+                // orient: 'vertical',
+                // top: "middle",
+                // right: "5%",
+                textStyle: {
+                    color: '#f2f2f2',
+                    fontSize: 20,
+
+                },
+                icon: 'roundRect',
+                data: data,
+                show: false
+            },
+            series: [
+                // 主要展示层的
+                {
+                    radius: ['10%', '20%'],
+                    center: ['50%', '50%'],
+                    type: 'pie',
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: function(params) {
+                                return params.level;
+                            },
+                            textStyle: {
+                                fontSize: 16,
+                                color: '#DEE5EC'
+                            },
+                            position: 'outside'
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: true,
+                            // length: 30,
+                            // length2: 55
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    // name: "民警训练总量",
+                    data: data,
+
+                },
+                // 边框的设置
+                {
+                    radius: ['20%', '24%'],
+                    center: ['50%', '50%'],
+                    type: 'pie',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    animation: false,
+                    tooltip: {
+                        show: false
+                    },
+                    data: [{
+                        value: 1,
+                        itemStyle: {
+                            color: "rgba(250,250,250,0.3)",
+                        },
+                    }],
+                }, {
+                    name: '外边框',
+                    type: 'pie',
+                    clockWise: false, //顺时加载
+                    hoverAnimation: false, //鼠标移入变大
+                    center: ['50%', '50%'],
+                    radius: ['80%', '80%'],
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [{
+                        value: 10,
+                        name: '',
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 2,
+                                borderColor: 'rgba(11,82,99,0.3)'
+                            }
+                        }
+                    }]
+                },
+            ]
+        };
+        TemperatureEcharts.setOption(option);
+        // echart图表自适应
+        // window.addEventListener("resize", function() {
+        //     TemperatureEcharts.resize();
+        // });
+    }
+    module.yearsbintu('scalecontent-three-content', datatop10);
+    module.sexzhu('scalecontent-three-yeareground', data0, data1);
+</script>
+
+</html>

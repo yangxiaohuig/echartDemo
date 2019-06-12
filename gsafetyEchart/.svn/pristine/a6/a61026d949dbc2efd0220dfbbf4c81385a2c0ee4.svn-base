@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/echarts.js"></script>
+    <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+            background-color: black;
+        }
+        .ProblemAnalysisBar {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="ProblemAnalysisBar" class="ProblemAnalysisBar" ></div>
+</body>
+<script>
+    var module = {};
+    var data ={};
+    data.xdata = ["市场管理","交通管理","环境保护","违法建设","农村管理","物业管理","市容环卫","施工管理","公共安全","市政","小区配套","社会建设","供水","拆迁","住房修缮","劳动和社会保障","卫生健康","城市绿化","群租房","供电"]
+    data.ydata = ["26129","20970","12255","12174","10750","10299","9976","9841","8746","8742","6995","6307","5557","5194","4019","3953","3824","2995","2525","2364"]
+    var echartsDataArr = [{
+        "lastrank": "1",
+        "proportion": "13.40",
+        "name": "市场管理",
+        "count": "26129",
+        "rank": "1"
+    }, {"lastrank": "2", "proportion": "10.76", "name": "交通管理", "count": "20970", "rank": "2"}, {
+        "lastrank": "6",
+        "proportion": "6.29",
+        "name": "环境保护",
+        "count": "12255",
+        "rank": "3"
+    }, {"lastrank": "3", "proportion": "6.24", "name": "违法建设", "count": "12174", "rank": "4"}, {
+        "lastrank": "4",
+        "proportion": "5.51",
+        "name": "农村管理",
+        "count": "10750",
+        "rank": "5"
+    }, {"lastrank": "7", "proportion": "5.28", "name": "物业管理", "count": "10299", "rank": "6"}, {
+        "lastrank": "8",
+        "proportion": "5.12",
+        "name": "市容环卫",
+        "count": "9976",
+        "rank": "7"
+    }, {"lastrank": "13", "proportion": "5.05", "name": "施工管理", "count": "9841", "rank": "8"}, {
+        "lastrank": "9",
+        "proportion": "4.49",
+        "name": "公共安全",
+        "count": "8746",
+        "rank": "9"
+    }, {"lastrank": "10", "proportion": "4.48", "name": "市政", "count": "8742", "rank": "10"}, {
+        "lastrank": "--",
+        "proportion": "",
+        "name": "小区配套",
+        "count": "6995",
+        "rank": "11"
+    }, {"lastrank": "--", "proportion": "", "name": "社会建设", "count": "6307", "rank": "12"}, {
+        "lastrank": "--",
+        "proportion": "",
+        "name": "供水",
+        "count": "5557",
+        "rank": "13"
+    }, {"lastrank": "--", "proportion": "", "name": "拆迁", "count": "5194", "rank": "14"}, {
+        "lastrank": "--",
+        "proportion": "",
+        "name": "住房修缮",
+        "count": "4019",
+        "rank": "15"
+    }, {"lastrank": "--", "proportion": "", "name": "劳动和社会保障", "count": "3953", "rank": "16"}, {
+        "lastrank": "--",
+        "proportion": "",
+        "name": "卫生健康",
+        "count": "3824",
+        "rank": "17"
+    }, {"lastrank": "--", "proportion": "", "name": "城市绿化", "count": "2995", "rank": "18"}, {
+        "lastrank": "--",
+        "proportion": "",
+        "name": "群租房",
+        "count": "2525",
+        "rank": "19"
+    }, {"lastrank": "--", "proportion": "", "name": "供电", "count": "2364", "rank": "20"}]
+    module.getPABarConfig = function(data, id,echartsDataArr) {
+        debugger
+        var colorTop = ['#26cbf2', '#35a0f9', '#04fbbe', '#31fc49', '#d8fd3c', '#fce244', '#fe981e', '#e88270', '#ebc26a', '#f5c661', '#45afb8', '#bed095', '#4dd1da', '#4494ed', '#26e2ff', '#35a1fc', '#00fdbe', '#08d262', '#2dfc9f', '#84ffc1'];
+        var colorBottom = ['rgba(0,72,115,0.5)', 'rgba(0,64,116,0.5)', 'rgba(0,86,115,0.5)', 'rgba(1,117,83,0.5)', 'rgba(11,115,0,0.5)', 'rgba(110,113,0,0.5)', 'rgba(119,65,0,0.5)', 'rgba(250,221,96,0.5)', 'rgba(254,107,200,0.5)', 'rgba(220,174,255,0.5)', 'rgba(0,115,83,0.3)', 'rgba(100,154,196,0.5)', 'rgba(220,174,255,0.5)', 'rgba(68,114,250,0.3)', 'rgba(0,72,115,0.3)', 'rgba(0,64,116,0.3)', 'rgba(0,86,115,0.3)', 'rgba(0,86,115,0.3)', 'rgba(0,108,115,0.3)', 'rgba(38,134,216,0.5)', ];
+        var seriesData = [];
+        for (var i = 0; i < colorTop.length; i++) {
+            seriesData.push({
+                    value: data.ydata[i],
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [3, 3, 0, 0],
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: colorTop[i]
+                            },
+                                {
+                                    offset: 1,
+                                    color: colorBottom[i]
+                                }
+                            ])
+                        },
+
+                    },
+                }
+
+            )
+        }
+
+
+        var myecharts = echarts.init(document.getElementById(id));
+        var options = {
+            color: colorTop,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'
+                },
+                formatter: function(d) {
+                    return `排名：${d[0].dataIndex+1}<br>${d[0].axisValue}：${d[0].value}件`
+                }
+            },
+            grid: {
+                top: '12%',
+                left: '2%',
+                right: '2%',
+                bottom: '2px',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#5991b7'
+                    },
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLabel: {
+                    color: 'white',
+                    fontSize: 16,
+                    formatter: function(value) {
+                        if(value == "劳动和社会保障"){
+                            return "劳动和\n社会保障"
+                        }
+
+                        var ret = ""; //拼接加\n返回的类目项
+                        var maxLength = 2; //每项显示文字个数
+                        var valLength = value.length; //X轴类目项的文字个数
+                        var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                        if (rowN > 1) //如果类目项的文字大于3,
+                        {
+                            for (var i = 0; i < rowN; i++) {
+                                var temp = ""; //每次截取的字符串
+                                var start = i * maxLength; //开始截取的位置
+                                var end = start + maxLength; //结束截取的位置
+                                //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                temp = value.substring(start, end) + "\n";
+                                ret += temp; //凭借最终的字符串
+                            }
+                            return ret;
+                        } else {
+                            return value;
+                        }
+                    },
+                },
+                data: data.xdata,
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '件',
+                nameGap: 20,
+                nameTextStyle: {
+                    color: 'white',
+                    fontSize: 16,
+                },
+                axisLabel: {
+                    color: 'white',
+                    fontSize: 16,
+                },
+                axisLine: {
+                    show: false
+                },
+                splitLine: {
+                    show: true,
+                    interval: 'auto',
+                    lineStyle: {
+                        color: '#1e5776'
+                    },
+                }
+            }
+
+            ],
+            series: [{
+                name: 'TOP20',
+                type: 'bar',
+                barWidth: '30%',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: function(d) {
+                                return colorTop[d.dataIndex]
+                            },
+                            fontSize: "16px"
+                        }
+
+                    }
+                },
+
+                data: seriesData
+            }]
+        };
+        myecharts.setOption(options);
+    };
+
+    module.getPABarConfig(data, 'ProblemAnalysisBar',echartsDataArr);
+
+</script>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <style>
+        body,html {
+            background-color:#000000;
+        }
+    </style>
+</head>
+<body>
+<div id="PopulationSurvey_right_bot_city__echarts" style="width: 500px;height: 300px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('PopulationSurvey_right_bot_city__echarts'));
+    var x = [2016,2017,2018];
+    var xy1 = [1365.4,1376.4,1349.6];
+    var yy1 = [807.5,794.3,764.6];
+    var y2 = [0.11,0.25,0.05];
+    var option = {
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "shadow",
+                textStyle: {
+                    color: "#fff"
+                }
+            }
+        },
+        // dataZoom: [{
+        //     type: 'slider',
+        //     start: 60,
+        //     end: 100,
+        //     fillerColor: 'rgba(255,255,255,0.2)',
+        //     borderColor: '#586e91',
+        //     handleIcon: 'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z',
+        //     handleSize: '80%',
+        //     handleStyle: {
+        //         color: '#a7b7cc',
+        //         shadowBlur: 3,
+        //         shadowColor: 'rgba(0, 0, 0, 0.6)',
+        //         shadowOffsetX: 2,
+        //         shadowOffsetY: 2,
+        //         opacity: 0.5
+        //     },
+        //     textStyle: {
+        //         color: 'transparent'
+        //     },
+        //     bottom: 15
+        // }],
+        "grid": {
+            "top": '50px',
+            "bottom": '30px',
+            right: '50px',
+            left: '50px',
+            textStyle: {
+                color: "#fff"
+            }
+        },
+        "legend": {
+            x: 'center',
+            top: '5px',
+            textStyle: {
+                color: '#fff'
+            },
+            "data": ['户籍人口', '外来人口', '增速']
+        },
+        "calculable": true,
+        "xAxis": [{
+            "type": "category",
+            "axisLine": {
+                lineStyle: {
+                    color: '#fff'
+                }
+            },
+            "splitLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "splitArea": {
+                "show": false
+            },
+            "axisLabel": {
+                "interval": 0
+
+            },
+            "data":x
+        }],
+        "yAxis": [{
+            "type": "value",
+            name: '规模(万人)',
+            "axisLine": {
+                lineStyle: {
+                    color: '#fff'
+                }
+            },
+            splitLine: {
+                show: false
+            }
+        },
+            {
+                name: '增速(百分比)',
+                type: 'value',
+                "axisLine": {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    formatter: function (p,m) {
+                        var str = p + '%'
+                        return str
+                    }
+                }
+            }
+        ],
+        "series": [{
+            "name": "户籍人口",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 25,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": true,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "insideTop",
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+            },
+            "data":xy1
+        },
+
+            {
+                "name": "外来人口",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(0,191,183,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":yy1
+            }, {
+                "name": "增速",
+                "type": "line",
+                symbolSize: 10,
+                yAxisIndex: 1,
+                symbol: 'circle',
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(252,230,48,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":y2
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

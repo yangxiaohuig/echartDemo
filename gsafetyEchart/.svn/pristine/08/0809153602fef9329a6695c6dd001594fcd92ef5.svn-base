@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <style>
+        body,html {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="construction_echatrs" style="width: 500px;height: 300px;"></div>
+<script>
+    var greenLine = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASMAAAAMCAYAAAAprdt6AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowREJBNzZCMTY5QjkxMUU5OUZGNjgxODMxNDdDNDkyMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowREJBNzZCMjY5QjkxMUU5OUZGNjgxODMxNDdDNDkyMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjBEQkE3NkFGNjlCOTExRTk5RkY2ODE4MzE0N0M0OTIyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjBEQkE3NkIwNjlCOTExRTk5RkY2ODE4MzE0N0M0OTIyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+bcMchwAAB29JREFUeNrsW7uOXEUQ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";
+    var TemperatureEcharts = echarts.init(document.getElementById("construction_echatrs"));
+    var xAxisData = ['西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区','西城区','东城区'];
+    var yAxisData2 = [400,11000,3900,45000,500,4900,3123,34324,23432,1212,1212,53535,400,11000,3900];
+   var  option = {
+        title: {
+            text: '',
+            subtext: '',
+            textStyle: {
+                color: '#fff',
+                fontSize: 16
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['竣工套数'],
+            icon: 'roundRect',
+            top: '5%',
+            right: '10%',
+            textStyle: {
+                color: '#fff',
+                fontSize: 16
+            }
+        },
+        // dataZoom: [{
+        //     //height:80,
+        //     width:30,
+        //     type: 'slider',
+        //     orient:'vertical',
+        //     start: 0,
+        //     end: 30,
+        //     x:"30",
+        //     fillerColor: 'rgba(255,255,255,0.2)',
+        //     borderColor: '#586e91',
+        //     handleIcon: 'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z',
+        //     handleSize: '80%',
+        //     handleStyle: {
+        //         color: '#a7b7cc',
+        //         shadowBlur: 3,
+        //         shadowColor: 'rgba(0, 0, 0, 0.6)',
+        //         shadowOffsetX: 2,
+        //         shadowOffsetY: 2,
+        //         opacity: 0.5
+        //
+        //     },
+        //     textStyle: {
+        //         color: 'transparent'
+        //     }
+        //     //bottom: "-24"
+        // }],
+        color: ['#00ca6f'],
+        //横向渐变
+        // color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+        //         {
+        //             offset: 0,
+        //             color: "#0167e8"
+        //         },
+        //         {
+        //             offset: 1,
+        //             color: "#13ace8"
+        //         }
+        //     ], false)
+        // ],
+        grid: {
+            top: '9%',
+            left: '3%',
+            right: '15%',
+            bottom: '0%',
+            containLabel: true
+        },
+        xAxis: {
+            // name: '家',
+            // left: '1%',
+            nameTextStyle: {
+                color: '#D8F0F7',
+                fontSize: 16,
+
+            },
+            type: 'value',
+            // boundaryGap: [0, 0.01],
+            axisTick: {
+                show: false
+            },
+            splitLine: { show: false }, //去除网格线
+            //splitArea : {show : true},//保留网格区域
+            axisLine: {
+                lineStyle: {
+                    type: 'solid',
+                    color: '#046B86', //左边线的颜色
+                    width: '1' //坐标线的宽度
+                }
+            },
+            axisLabel: {
+                // rotate: 90,
+                interval: '0', //0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                textStyle: {
+                    color: '#fff', //坐标值得具体的颜色
+                    fontSize: 16
+                }
+            }
+        },
+        yAxis: {
+            type: 'category',
+            // name: '家',
+            nameTextStyle: {
+                color: '#D8F0F7',
+                fontSize: 16,
+            },
+            axisLine: {
+                lineStyle: {
+                    type: 'solid',
+                    color: '#055D80',
+                    width: '1'
+                }
+            },
+            axisTick: { show: false },
+            splitLine: { show: false },
+            axisLabel: {
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 16
+                }
+            },
+            // data: ["1","2","3","4","5","6","7","8"],
+            data: xAxisData
+        },
+        series: [
+            // {
+            //     name: '建设筹集',
+            //     type: 'pictorialBar',
+            //     barWidth: 15,
+            //     label: {
+            //         normal: {
+            //             show: true,
+            //             position: 'right',
+            //             color: '#fff',
+            //             fontSize: 16
+            //         }
+            //     },
+            //     symbol: 'image://' + yellowLine,
+            //     barGap:'20%',/*多个并排柱子设置柱子之间的间距*/
+            //     // data: ["10","20","30","40","50","60","70","80"],
+            //     data:data.yAxisData1
+            // },
+            {
+                name: '竣工套数',
+                type: 'pictorialBar',
+                barWidth: 15,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        color: '#fff',
+                        fontSize: 16
+                    }
+                },
+                barGap: '20%',
+                /*多个并排柱子设置柱子之间的间距*/
+                symbol: 'image://' + greenLine,
+                // data: ["15","25","35","45","55","65","75","85"],
+                data: yAxisData2
+            },
+        ]
+    };
+    TemperatureEcharts.setOption(option);
+    // echart图表自适应
+    window.addEventListener("resize", function() {
+        TemperatureEcharts.resize();
+    });
+</script>
+</body>
+</html>

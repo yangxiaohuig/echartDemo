@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html {
+            background-color: #000;
+        }
+        .railPassengerFlow_right_TrafficOverview>div {
+            margin-top: 5px;
+            font-size: 18px;
+            color: #fff;
+            height: 42px;
+        }
+        .railPassengerFlow_right_TrafficOverview{
+            position: absolute;
+            left: 760px;
+            top: 38px;
+            margin: 30px 10px 10px 10px;
+        }
+    </style>
+    <script src="lib/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery.min.js"></script>
+
+</head>
+<body>
+<div id="railPassengerFlow_TrafficOverview" style="width: 800px;height: 500px">
+
+</div>
+<div class="railPassengerFlow_right_TrafficOverview"></div>
+<script>
+    var railPassengerFlow = echarts.init(document.getElementById('railPassengerFlow_TrafficOverview'));
+    var walk = 'image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcMAAAAeCAYAAABQUXWbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowNmE5M2FjOC1lY2MzLTM1NGYtYmZkYy1jYzg5Y2NhOTNhYmIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6N0JDMEY0NkFGQzI2MTFFOEJGMURCNjA5MEJEMzc4MkYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6N0JDMEY0NjlGQzI2MTFFOEJGMURCNjA5MEJEMzc4MkYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ZDhiMzEwYzktMzIwZi00OTlhLTk5M2QtNTI4YjBjOGI3ZDM5IiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6MGZiNTQzNDYtN2Y2OS1lYjRlLWE0MTEtMmIx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';
+    var temobj2 = [1959,1327,1261,1260,1086,1076,1054,1031,1030,1003];
+    var datastr = ["西二旗  13号线","复兴门  2号线","北京南站  4号线","建国门  2号线","呼家楼  10号线","国家图书馆  9号线","西直门  2号线","国贸  10号线","四惠  1号线","海淀黄庄  4号线"];
+    var volume_pro1 = '';
+    for (var i = 0; i < temobj2.length; i++) {
+        volume_pro1 += '<div>' + temobj2[i] + '<span>人</span> </div>'
+    }
+    $('.railPassengerFlow_right_TrafficOverview').html(volume_pro1);
+    var  paimingoption = {
+        grid: {
+            left: '170',
+            top: '50',
+            bottom: '0',
+            right: '0'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                lineStyle: {
+                    color: '#57617B'
+                }
+            }
+        },
+        title: {
+            show: false,
+            text: '万人',
+            textStyle: {
+                fontWeight: 'normal',
+                fontSize: 16,
+                color: '#BDCAEA'
+            },
+            right: '0%',
+            top: '0%',
+        },
+        yAxis: {
+            inverse: true,
+            data: datastr,
+            boundaryGap: true,
+            axisLine: { //轴线的设置
+                show: false,
+                lineStyle: {
+                    color: '#abbbdd',
+                }
+            },
+
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                color: '#fff',
+                fontSize: 16
+            },
+        },
+        xAxis: {
+            show: false,
+            axisLabel: {
+                color: '#fff',
+                fontSize: 16
+            },
+            boundaryGap: true,
+            axisLine: { //轴线的设置
+                show: true,
+                lineStyle: {
+                    color: '#abbbdd',
+                }
+            },
+            axisTick: {
+                show: false
+            },
+            splitLine: { //网格线的设置
+                show: false,
+                lineStyle: {
+                    color: '#3d5f8b',
+                }
+            },
+        },
+        series: [{
+            type: 'pictorialBar',
+            name: '人流量',
+            symbolOffset: [0, 0],
+            symbolPosition: 'end',
+            symbolClip: true,
+            symbol: walk,
+            symbolSize: [470, 31],
+            z: 10,
+            data: temobj2
+        }]
+    };
+
+    railPassengerFlow.setOption(paimingoption);
+</script>
+</body>
+</html>
