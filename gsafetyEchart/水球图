@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水球图</title>
+    <style>
+        #app {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script src="./lib/jquery/jquery.min.js"></script>
+<script src="./lib/echarts/echarts.min.js"></script>
+<script src="./lib/echarts-liquidfill-master/dist/echarts-liquidfill.min.js"></script>
+<script>
+    var myChart = echarts.init(document.getElementById('app'));
+    var option = {
+        series: [
+
+            {
+                type: 'liquidFill',
+                data: [0.6, 0.5, 0.4, 0.3],
+                radius: '40%',
+                shape: 'diamond',
+                center: ['25%', '25%']
+            },
+            {
+                type: 'liquidFill',
+                data: [0.6, 0.5, 0.4, 0.3],
+                direction: 'left',
+                radius: '40% ',
+                shape: 'rect',
+                center: ['75%', '25%']
+            },
+            {
+                type: 'liquidFill',
+                data: [0.6, 0.5, 0.4, 0.3],
+                radius: '40%',
+                shape: 'roundRect',
+                center: ['25%', '75%'],
+                backgroundStyle: {
+                    borderColor: '#156ACF',
+                    borderWidth: 1,
+                    shadowColor: 'rgba(0, 0, 0, 0.4)',
+                    shadowBlur: 20
+                },
+                outline: {
+                    show: false
+                },
+                waveAnimation: false, // 禁止左右波动
+            },
+            {
+                type: 'liquidFill',
+                data: [0.6, 0.5, 0.4, 0.3],
+                radius: '50%',
+                shape: 'pin',
+                center: ['75%', '75%'],
+                amplitude: 0,
+                waveAnimation: false,
+                outline: {
+                    show: false
+                },
+                backgroundStyle: {
+                    shadowColor: 'rgba(0, 0, 0, 0.4)',
+                    shadowBlur: 20
+                },
+
+            }]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>
