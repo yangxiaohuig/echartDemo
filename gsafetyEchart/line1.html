@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+
+        }
+        #line1 {
+            width: 500px;
+            height: 500px;
+            background-color: #333333;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+  <div id="line1"></div>
+  <script src="../deps/jquery/jquery-1.12.0.min.js"></script>
+  <script src="../deps/echarts/echarts.min.js"></script>
+  <script>
+
+      function echartsRender() {
+          var chart = echarts.init(document.getElementById('line1'));
+          //处理数据
+          var color = ['#F6E11D','#1B92F4','#E28B07'];
+          //处理数据
+          var option = {
+              tooltip: {
+                  trigger: 'axis',
+//                  formatter: function(params){
+//                      var str = params[0].name+'<br/>'
+//                      for(var i = 0;i<params.length;i++) {
+//                          var item = params[i];
+//                          str+=item.marker+item.seriesName+' : <span style="color:'+ item.color+'">'+item.value+' %</span><br/>'
+//                      }
+//                      return str;
+//                  },
+                  padding:15,
+                  textStyle: {
+                      color: '#fefefe',
+                      fontSize: 20,
+                      lineHeight:30
+                  }
+              },
+              color: color,
+              legend: [
+                  {
+                      left: '5%',
+                      top: '5%',
+                      textStyle: {
+                          color: '#d1f0ff',
+                          fontSize: 16
+                      },
+//                      data: data.legend
+                  }
+              ],
+              grid: {
+                  left: '5%',
+                  right: '5%',
+                  bottom: '5%',
+                  top: '20%',
+                  containLabel: true,
+              },
+              calculable: true,
+              xAxis: [{
+                  type: 'category',
+                  axisTick: {
+                      "show": false
+                  },
+                  axisLabel: {
+                      textStyle: {
+                          color: '#d1f0ff',
+                          fontSize: 16
+                      }
+                  },
+                  axisLine: {
+                      lineStyle: {
+                          color: "rgba(195, 226, 255, 0.6)"
+                      }
+
+                  },
+                  data:['上海','上海','上海','上海','上海']
+              }],
+              yAxis: [{
+                  type: 'value',
+                  name: "",
+                  nameTextStyle: {
+                      color: "#d1f0ff",
+                      fontSize: 16
+                  },
+                  axisTick: {
+                      "show": false
+                  },
+                  splitLine: {
+                      show: false
+                  },
+                  axisLine: {
+                      lineStyle: {
+                          color: "rgba(195, 226, 255, 0.6)"
+                      }
+                  },
+                  axisLabel: {
+                      show: true,
+                      formatter:function(params){
+                          return params+'%'
+                      },
+                      textStyle: {
+                          color: '#d1f0ff',
+                          fontSize: 16
+                      }
+                  }
+              }],
+              series: [{
+                  name: '',
+                  type: 'line',
+                  symbolSize:10,
+                  symbol:'circle',
+                  itemStyle:{
+                      borderWidth: 10,
+                      borderColor:'rgba(' + _convertHexToRGB(color[0]) +',0.3)'
+                  },
+                  data: [200,250,100,300,200],
+              }]
+          };
+          chart.clear();
+          chart.setOption(option);
+      }
+      echartsRender();
+      //颜色16进制转rgb
+      function _convertHexToRGB(str) {
+          str = str[0] === '#' ? str.slice(1) : str;
+          str = str.length === 3 ? str.repeat(2) : str;
+          if ((str.length !== 6) || !(/^[0-9a-fA-F]{3,6}$/i.test(str))) return 'Invalid data';
+          var str = parseInt(str[0] + str[1], 16) + ',' + parseInt(str[2] + str[3], 16) + ',' + parseInt(str[4] + str[5], 16);
+          return str
+      }
+  </script>
+</body>
+</html>

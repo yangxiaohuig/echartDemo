@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #bar1 {
+            width: 500px;
+            height: 500px;
+            border: 2px solid red;
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+<div id="bar1"></div>
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/echarts/echarts.js"></script>
+<script>
+    var chart = echarts.init(document.getElementById('bar1'));
+    //处理数据
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+//                formatter: function (params) {
+//                    var str = params[0].name + '<br/>'
+//                    for (var i = 0; i < params.length; i++) {
+//                        var item = params[i];
+//                        str += item.marker + item.seriesName + ' : <span style="color:'+ item.color+'">' + item.value + ' (万人)</span><br/>'
+//                    }
+//                    return str;
+//                },
+            padding:15,
+            textStyle: {
+                color: '#fefefe',
+                fontSize: 20,
+                lineHeight:30
+            }
+        },
+        legend: [
+            {
+                left: '5%',
+                top: '5%',
+                itemWidth: 10,
+                itemHeight: 10,
+                textStyle: {
+                    color: '#d1f0ff',
+                    fontSize: 16
+                },
+//                    data: data.legend
+            }
+        ],
+        grid: {
+            left: '5%',
+            right: '5%',
+            bottom: '5%',
+            top: '20%',
+            containLabel: true
+        },
+        color: [ '#5BD3FF','#FCDF3E'],
+        calculable: true,
+        xAxis: [{
+            type: 'category',
+            axisTick: {
+                "show": false
+            },
+            axisLabel: {
+                textStyle: {
+                    color: '#d1f0ff',
+                    fontSize: 16
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: "rgba(195, 226, 255, 0.6)"
+                }
+
+            },
+            data:['上海','上海','上海','上海','上海']
+        }],
+        yAxis: [{
+            type: 'value',
+            name: "(万人)",
+            nameTextStyle: {
+                color: "#d1f0ff",
+                fontSize: 16
+            },
+            axisTick: {
+                "show": false
+            },
+            splitLine: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: "rgba(195, 226, 255, 0.6)"
+                }
+            },
+            axisLabel: {
+                show: true,
+                textStyle: {
+                    color: '#d1f0ff',
+                    fontSize: 16
+                }
+            }
+        }],
+        series: [{
+            name: '',
+            type: 'pictorialBar',
+            stack: '总量',
+            symbol: 'roundRect',
+            symbolRepeat: 'fixed',
+            symbolMargin: '20%',
+            symbolClip: true,
+            symbolSize:[30,8],
+//                barCategoryGap:(-100*i)+'%',
+            data: [200,250,100,300,200],
+            itemStyle: {
+                normal: {
+                    borderWidth:4,
+                    barBorderRadius:10,
+//                        color: [ '#5BD3FF','#FCDF3E']
+                    color: '#5BD3FF'
+                }
+            }
+        }]
+    };
+    chart.clear();
+    chart.setOption(option);
+
+</script>
+</body>
+</html>
