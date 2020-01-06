@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>漏斗图</title>
+</head>
+
+
+<body>
+<div id="box_box" style="width: 500px;height: 300px;"></div>
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/echarts/echarts.js"></script>
+
+<script>
+    var  mychart = echarts.init(document.getElementById('box_box'));
+    var option = {
+        title: {
+            text: '漏斗图',
+            subtext: '纯属虚构'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        toolbox: {
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        legend: {
+            data: ['展现','点击','访问','咨询','订单']
+        },
+        calculable: true,
+        series: [
+            {
+                name:'漏斗图',
+                type:'funnel',
+                left: '10%',
+                top: 60,
+                //x2: 80,
+                bottom: 60,
+                width: '80%',
+                // height: {totalHeight} - y - y2,
+                min: 0,
+                max: 100,
+                minSize: '0%',
+                maxSize: '100%',
+                sort: 'descending',
+                gap: 2,
+                label: {
+                    show: true,
+                    position: 'inside'
+                },
+                labelLine: {
+                    length: 10,
+                    lineStyle: {
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                itemStyle: {
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                emphasis: {
+                    label: {
+                        fontSize: 20
+                    }
+                },
+                data: [
+                    {value: 0, name: '访问'},
+                    {value: 0, name: '咨询'},
+                    {value: 0, name: '订单'},
+                    {value: 0, name: '点击'},
+                    {value: 100, name: '展现'}
+                ]
+            }
+        ]
+    };
+    mychart.setOption(option)
+</script>
+</body>
+</html>

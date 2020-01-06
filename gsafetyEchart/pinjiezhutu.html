@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拼接柱状图</title>
+    <style>
+        #pinjiezhutu {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/echarts/echarts.min.js"></script>
+<div id="pinjiezhutu"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('pinjiezhutu'));
+    var spNum = 5,_max=100;
+    var legendData = ['常住人口', '户籍人口'];
+    var y_data = ['成都市', '绵阳市', '自贡市'];
+    var _datamax = [100,100,100],
+        _data1 = [10,15,10],
+        _data2 = [19,5,40];
+    var fomatter_fn = function(v) {
+        return (v.value / _max * 100).toFixed(0)
+    }
+    var _label = {
+        normal: {
+            show: true,
+            position: 'inside',
+            formatter: fomatter_fn,
+            textStyle: {
+                color: '#fff',
+                fontSize: 16
+            }
+        }
+    };
+    var  option = {
+        backgroundColor: '#091034',
+        legend: {
+            data: legendData,
+            textStyle: {
+                color: '#ccc'
+            }
+        },
+        grid: {
+            containLabel: true,
+            left: 20,
+            right: 15,
+            bottom: 30,
+            top:50
+        },
+        tooltip: {
+            show: true,
+            backgroundColor: '#fff',
+            borderColor: '#ddd',
+            borderWidth: 1,
+            textStyle: {
+                color: '#3c3c3c',
+                fontSize: 16
+            },
+//            formatter: function(p) {
+//                console.log(p);
+//                var _arr = p.seriesName.split('/'),
+//                    idx = p.seriesIndex;//1，2，3
+//                return '名称：' + p.seriesName + '<br>' + '完成：' + p.value + '<br>' + '占比：' + (p.value / _max * 100).toFixed(0) + '%';
+//            },
+            extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)'
+        },
+        xAxis: {
+            splitNumber: spNum,
+            interval: _max / spNum,
+            max: _max,
+            axisLabel: {
+                show: false,
+                formatter: function(v) {
+                    var _v = (v / _max * 100).toFixed(0);
+                    return _v == 0 ? _v : _v + '%';
+                }
+            },
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            splitLine: {
+                show: false
+            }
+
+        },
+        yAxis: [{
+            data: y_data,
+            axisLabel: {
+                fontSize: 16,
+                color: '#fff'
+            },
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            splitLine: {
+                show: false
+            }
+        },
+            {
+            show: false,
+            data: y_data,
+            axisLine: {
+                show: false
+            }
+        }],
+        series: [
+            {
+            type: 'bar',
+            name: '常住人口',
+            stack: '2',
+            label: _label,
+            legendHoverLink: false,
+            barWidth: 20,
+            itemStyle: {
+                normal: {
+                    color: '#7E47FF'
+                },
+                emphasis: {
+                    color: '#7E47FF'
+                }
+            },
+            data: _data1
+        },
+            {
+            type: 'bar',
+            name: '户籍人口',
+            stack: '2',
+            legendHoverLink: false,
+            barWidth: 20,
+            label: _label,
+            itemStyle: {
+                normal: {
+                    color: '#FD5916'
+                },
+                emphasis: {
+                    color: '#FD5916'
+                }
+            },
+            data: _data2
+        }]
+    };
+    myChart.setOption(option);
+
+</script>
+</body>
+</html>

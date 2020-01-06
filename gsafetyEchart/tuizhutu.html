@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts1</title>
+    <!-- 引入 echarts.js -->
+    <script src="lib/echarts/echarts.min.js"></script>
+    <script src="map/js/china.js"></script>
+    <script src="lib/jquery/jquery.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1600px;height:800px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var data1 =  [100,200,100,200];
+    var data2 =   [110,210,110,210];
+    var data3 =   [120,180,120,180];
+    var data4 =   [120,180,120,180];
+
+    //定义图表option
+    var option =  {
+        tooltip : {
+            axisPointer : {
+                type : 'shadow'
+            }
+        },
+        title: {
+            text:'xxx激活设备数',
+            left:'left' ,
+            top:'10px',
+            textStyle: {
+                color: '#666',
+                fontWeight: 'normal'
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        grid: {
+            y: '10%',
+            y2: '10%'
+        },
+        legend: {
+            data:['安卓','诺基亚','安卓1','诺基亚2']
+        },
+        xAxis:{
+            type: 'category',
+            axisLabel:{
+                interval: 0,    // {number}
+                rotate: 40
+            },
+            data: ['星期三','星期四','星期五','星期六']
+        },
+        yAxis:{
+            type: 'value',
+            min: 0,
+            interval: 10000
+        },
+        series: [
+            {
+                name:'安卓',
+                type:'bar',
+                stack:'xxx',
+                barMaxWidth: 25,
+                barGap: "20%",
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: '#000'
+                        },
+                        formatter:''
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#548dd5'
+                    }
+                },
+                data:data1
+            },
+            {
+                name:'诺基亚',
+                type:'bar',
+                stack:'xxx',
+                barMaxWidth: 25,
+                barGap: "20%",
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: '#000'
+                        },
+                        formatter:''
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#000'
+                    }
+                },
+
+                data: data2
+            },
+            {
+                name:'安卓1',
+                type:'bar',
+                stack:'xxx11',
+                barMaxWidth: 25,
+                barGap: "10%",
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: '#000'
+                        },
+                        formatter:''
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#e56c0a',
+                    }
+                },
+
+                data: data3
+            },
+            {
+                name:'诺基亚2',
+                type:'bar',
+                stack:'xxx11',
+                barMaxWidth: 25,
+                barGap: "20%",
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: '#000'
+                        },
+                        formatter:''
+                    }
+                },
+                data: data4
+            },
+            {
+                name:'合计',
+                type:'bar',
+                stack:'xxx11',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            color: '#000'
+                        },
+                        formatter:''
+                    }
+                },
+                data:  [0,0,0,0]
+            }
+        ]
+    };
+
+    var series = option["series"];
+    var fun2 = function (params) {
+        var data4 =0;
+        for(var i=0,l=series.length-3;i<l;i++){
+            data4 += series[i].data[params.dataIndex]
+        }
+        return data4
+    };
+    series[series.length-4]["label"]["normal"]["formatter"] = fun2;
+    var fun = function (params) {
+        var data3 =0;
+        for(var i=series.length-3,l=series.length;i<l;i++){
+            data3 += series[i].data[params.dataIndex]
+        }
+        return data3
+    };
+    //加载页面时候替换最后一个series的formatter
+    series[series.length-1]["label"]["normal"]["formatter"] = fun;
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    //legend点击事件，根据传过来的obj.selected得到状态是true的legend对应的series的下标，再去计算总和
+    myChart.on("legendselectchanged", function(obj) {
+        var b = obj.selected;
+        var d = [];
+        for(var key in b){
+            if(b[key]){
+                for(var i=0,l=series.length;i<l;i++){
+                    var changename = series[i]["name"];
+                    if(changename == key){
+                        d.push(i);//得到状态是true的legend对应的series的下标
+                    }
+                }
+            }
+        }
+         //解决图例全部点完之后还显示数字的问题
+            if(d.length ==0) {
+                series[series.length - 1].label.normal = {
+                    show: false
+                };
+            }
+        if(obj.selected.安卓1 == false && obj.selected.诺基亚1 == false && d.length ==2) {
+            series[series.length - 3].label.normal = {
+                show: false
+            };
+        }
+        console.log(d);
+        // 安卓点击
+        if(obj.selected.安卓 == false && d.length == 3) {
+            var fun5 = function (params) {
+                var data7 =0;
+                for(var i=0;i<d.length-2;i++){
+                    for(var j=0;j<series.length-1;j++){
+                        if(d[i] == j){ //0,1,2,3
+                            data7 += series[j].data[params.dataIndex] //重新计算总和
+                        }
+                    }
+                }
+                return data7
+            };
+            series[series.length-4]["label"]["normal"]["formatter"] = fun5;  //1
+            series[series.length-5]["label"]["normal"]["formatter"] = fun5;  //0
+        }
+        // 诺基亚点击
+        if(obj.selected.诺基亚 == false && d.length == 3) {
+            var fun5 = function (params) {
+                var data7 =0;
+                for(var i=0;i<d.length-2;i++){
+                    for(var j=0;j<series.length-1;j++){
+                        if(d[i] == j){ //0,1,2,3
+                            data7 += series[j].data[params.dataIndex] //重新计算总和
+                        }
+                    }
+                }
+                return data7
+            };
+            series[series.length-4]["label"]["normal"]["formatter"] = fun5;  //1
+            series[series.length-5]["label"]["normal"]["formatter"] = fun5;  //0
+        }
+
+        // 安卓1点击
+        if(obj.selected.安卓1 == false && d.length == 3) {
+            debugger
+            var fun5 = function (params) {
+                var data7 =0;
+                for(var i=0;i<d.length-2;i++){
+                    for(var j=0;j<series.length-1;j++){
+                        if(d[i] == j){
+                            data7 += series[j].data[params.dataIndex] //重新计算总和
+                        }
+                    }
+                }
+                return data7
+            };
+            series[series.length-1]["label"]["normal"]["formatter"] = fun5;  //0
+            series[series.length-2]["label"]["normal"]["formatter"] = fun5;  //1
+        }
+
+
+
+
+        // 安卓，诺基亚,安卓1,诺基亚1点击
+        if(d.length == 1) {
+            var fun4 = function (params) {
+                var data6 =0;
+                for(var i=0;i<d.length+3;i++){
+                    for(var j=0;j<series.length-1;j++){
+                        if(d[i] == j){
+                            data6 += series[j].data[params.dataIndex] //重新计算总和
+                        }
+                    }
+                }
+                return data6
+            };
+            series[series.length-1]["label"]["normal"]["formatter"] = fun4;
+            series[series.length-2]["label"]["normal"]["formatter"] = fun4;
+            series[series.length-3]["label"]["normal"]["formatter"] = fun4;
+        }
+        // // 安卓1，诺基亚1点击
+        // if(d.length == 3) {
+        //     var fun5 = function (params) {
+        //         var data7 =0;
+        //         for(var i=0;i<d.length-1;i++){
+        //             for(var j=0;j<series.length-1;j++){
+        //                 if(d[i] == j){ //0,1,2,3
+        //                     data7 += series[j].data[params.dataIndex] //重新计算总和
+        //                 }
+        //             }
+        //         }
+        //         return data7
+        //     };
+        //     series[series.length-4]["label"]["normal"]["formatter"] = fun5;  //1
+        //     series[series.length-5]["label"]["normal"]["formatter"] = fun5;  //0
+        // }
+
+        myChart.setOption(option);
+    })
+
+</script>
+</body>
+</html>

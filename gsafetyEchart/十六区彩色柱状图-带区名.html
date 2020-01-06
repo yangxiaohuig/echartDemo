@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+       html,body {
+           background-color: #0B0B0B;
+       }
+      .areaList {
+          position: absolute;
+          top: 404px;
+          left: 57px;
+          width: calc(100% - 100px);
+          height: calc(100% - 600px);
+          display: flex;
+          text-align: center;
+       }
+     .areaList .areaList_item {
+           border-style: dashed;
+           border-width: 0 1px 0 0;
+           line-height: 1;
+       }
+    </style>
+</head>
+<body>
+<div id="weekly-center-Township-bottom-echart" style="width: 1920px;height:1000px;"></div>
+<div class="areaList"></div>
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/echarts/echarts.min.js"></script>
+<script>
+    var data = [
+        {
+            district: "东城区",
+            township: [
+                {name: "永定门外街道", value: "2"},
+                {name: "永定门外街道", value: "4"},
+                {name: "永定门外街道", value: "6"}
+            ]
+        },
+        {
+            district: "丰台区",
+            township: [
+                {name: "东铁匠营街道", value: "1"},
+                {name: "大红门街道", value: "2"},
+                {name: "新村街道", value: "2"}
+            ]
+        },
+        {
+            district: "大兴区",
+            township: [
+                {name: "天宫院街道", value: "1"},
+                {name: "西红门镇", value: "1"},
+                {name: "西红门镇", value: "3"},
+                {name: "西红门镇", value: "4"}
+            ]
+        },
+        {
+            district: "密云区",
+            township: [
+                {name: "天宫院街道", value: "1"},
+                {name: "西红门镇", value: "1"}
+            ]
+        },
+        {
+            district: "房山区",
+            township: [
+                {name: "天宫院街道", value: "1"},
+                {name: "西红门镇", value: "1"}
+            ]
+        },
+        {
+            district: "昌平区",
+            township: [
+                {name: "天宫院街道", value: "4"},
+                {name: "西红门镇", value: "1"}
+            ]
+        },
+        {
+            district: "朝阳区",
+            township: [
+                {name: "天宫院街道", value: "1"},
+                {name: "西红门镇", value: "4"}
+            ]
+        },
+        {
+            district: "海淀区",
+            township: [
+                {name: "天宫院街道", value: "4"},
+                {name: "西红门镇", value: "5"}
+            ]
+        },
+        {
+            district: "西城区",
+            township: [
+                {name: "天宫院街道", value: "3"},
+                {name: "西红门镇", value: "5"}
+            ]
+        },
+        {
+            district: "通州区",
+            township: [
+                {name: "天宫院街道", value: "1"},
+                {name: "西红门镇", value: "3"}
+            ]
+        },
+        {
+            district: "门头沟区",
+            township: [
+                {name: "天宫院街道", value: "6"},
+                {name: "西红门镇", value: "5"}
+            ]
+        }
+    ];
+    var myChart1 = echarts.init(document.getElementById('weekly-center-Township-bottom-echart'));
+    if (data) {
+        var colorAry = ['rgba(255,90,58,0.58)', 'rgba(255,123,58,0.58)', 'rgba(255,183,58,0.58)', 'rgba(255,229,58,0.58)', 'rgba(188,255,58,0.58)', 'rgba(58,255,197,0.58)', 'rgba(58,234,255,0.58)', 'rgba(58,174,255,0.58)', 'rgba(58,104,255,0.58)', 'rgba(171, 153, 241, 0.58)'];
+        var colorLen = colorAry.length;
+        var textStyle = {
+            fontSize: 16,
+            color: '#fff'
+        };
+        var axisLineStyle = {
+            lineStyle: {
+                color: '#047ca5'
+            }
+        };
+        var xData = [];
+        var seriesData = [];
+        data.forEach(function(item, index) {
+            var len = item.township.length;
+            item.township.forEach(function(data, j) {
+                xData.push(data.name);
+                seriesData.push({
+                    value: data.value,
+                    itemStyle: {
+                        color: colorAry[index % colorLen]
+                    }
+                })
+            });
+
+        });
+
+        //设置区域样式
+        var str = '';
+        data.forEach(function(item, index) {
+            var _color = colorAry[index % colorLen];
+            var len1 = item.township.length;
+            str += '<div class="areaList_item" style="flex:' + len1 + ';color:' + _color + ';border-color:' + _color + ';">' + item.district + '<br><span></span></div>';
+        });
+        $('.areaList').html(str);
+
+        var option1 = {
+            color: ['#16c2af', '#ffc751', '#4162ff', '#ff6e72', '#9692ff'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line'
+                },
+            },
+            grid: { //图表的位置
+                top: '30',
+                left: '10',
+                right: '10',
+                bottom: '20',
+                containLabel: true
+            },
+            yAxis: {
+                name: '天',
+                nameTextStyle: {
+                    fontSize: textStyle.fontSize - 2,
+                    color: textStyle.color,
+                    padding: [0, 50, 0, 0]
+                },
+                type: 'value',
+                axisLabel: {
+                    textStyle: textStyle,
+                },
+                axisLine: axisLineStyle,
+                splitLine: {
+                    show: false
+                },
+            },
+            xAxis: {
+                name: '街乡镇',
+                nameTextStyle: {
+                    fontSize: textStyle.fontSize - 2,
+                    color: textStyle.color
+                },
+                type: 'category',
+                data: xData,
+                axisLabel: {
+                    textStyle: textStyle,
+                    formatter: function(value) {
+                        var ret = ""; //拼接加\n返回的类目项
+                        var maxLength = 1; //每项显示文字个数
+                        var valLength = value.length; //X轴类目项的文字个数
+                        var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                        if (rowN > 1) //如果类目项的文字大于3,
+                        {
+                            for (var i = 0; i < rowN; i++) {
+                                var temp = ""; //每次截取的字符串
+                                var start = i * maxLength; //开始截取的位置
+                                var end = start + maxLength; //结束截取的位置
+                                //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                temp = value.substring(start, end) + "\n";
+                                ret += temp; //凭借最终的字符串
+                            }
+                            return ret;
+                        } else {
+                            return value;
+                        }
+                    },
+                    show: true,
+
+                },
+                axisLine: axisLineStyle,
+            },
+            series: [{
+                name: '',
+                type: 'bar',
+                barWidth: '30%',
+                data: seriesData,
+            }]
+        };
+        myChart1.setOption(option1);
+
+    } else {
+
+    }
+</script>
+</body>
+</html>
