@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>柱状图加圆球图</title>
+    <style>
+        body {
+            background-color: #333333;
+        }
+        #emergenciesEachart {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="emergenciesEachart">
+
+</div>
+<script src="../resources/vendor/echarts/echarts.js"></script>
+<script src="../resources/vendor/jq/jquery-1.8.3.min.js"></script>
+<script>
+  function option () {
+      var data = {
+          xdata:['1223','333','4444','555','666','8888'],
+          ydata:[10,13,12,15,16,10]
+      };
+        myChart00 =echarts.init(document.getElementById('emergenciesEachart'));
+        var option = {
+            grid: {
+                left: 5,
+                right: 50,
+                top: 25,
+                bottom:'13%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: data.xdata,
+                triggerEvent: false,
+                splitLine: {
+                    show: false
+                },
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        width: 2,
+                        color: 'rgba(255,255,255,.6)'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle:{
+                        color: '#fff',
+                        fontSize: 16
+                    },
+                    textShadowOffsetY: 2,
+                    interval:0,
+                    formatter:function(val){
+                        return val.split('').join('\n');
+                    }
+                }
+            },
+            yAxis: {
+                name: '',
+                show:false,
+                nameTextStyle: {
+                    color: '#fff',
+                    fontSize: 18,
+                    textShadowOffsetY: 2
+                },
+                type: 'value',
+                splitLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,.2)'
+                    }
+                },
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        width: 2,
+                        color: 'rgba(255,255,255,.6)'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle:{
+                        color: '#fff',
+                        fontSize: 16
+                    },
+                    textShadowOffsetY: 2
+                }
+            },
+            series: [
+                {
+                    data: data.ydata,
+                    type: 'line',
+                    symbol: 'circle',
+                    symbolSize: 15,
+                    color: '#fff',
+                    itemStyle:{
+                        normal:{
+                            lineStyle: {
+                                color: 'transparent'
+                            },
+                            label:{
+                                show:true,
+                                position:'top',
+                                textStyle:{
+                                    color:"#fff",
+                                    fontSize: 18,
+                                }
+                            }
+                        }
+                    },
+                    label: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff',
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        }
+                    },
+
+                },
+                {
+                    type: 'bar',
+                    animation: false,
+                    barWidth: 10,
+                    hoverAnimation: false,
+                    data: data.ydata,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0,
+                                    color: '#ecfdff' // 0% 处的颜色
+                                }, {
+                                    offset: 0.5,
+                                    color: '#0ec5ff' // 100% 处的颜色
+                                },
+                                    {
+                                        offset: 1,
+                                        color: '#508aff' // 100% 处的颜色
+                                    }],
+                                globalCoord: false // 缺省为 false
+                            },
+                            label: {
+                                show: false
+                            }
+                        }
+                    }
+                }]
+        };
+        myChart00.setOption(option);
+    }
+        option();
+</script>
+</body>
+</html>
